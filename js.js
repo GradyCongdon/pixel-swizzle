@@ -18,9 +18,23 @@ const psize = 50;
 const _pallete = {
   height: psize,
   width: psize,
-  border: 0.25,
-  borderOffset: 0.25
+  border: 1,
+  borderOffset: 0,
+  cellGap: 2,
 };
+
+const getPalleteSize = (pallete, rows, columns) => {
+  const cellHeight = (pallete.height / columns);
+  const cellWidth = (pallete.width / rows);
+  const cellMargins = (pallete.border + pallete.cellGap - 0.5);
+  const height = (cellHeight + cellMargins) * columns;
+  const width = (cellWidth + cellMargins) * rows;
+  return {
+    height,
+    width
+  };
+}
+
 
 const _pixel = {
   x: 15,
@@ -48,10 +62,10 @@ const red = (imageData, x,y) => {
 }
 
 const getPixel = (x,y) => {
-  const data = ctx.getImageData(x,y,1,1);
+  const image = ctx.getImageData(x,y,1,1);
   return {
     x,y,
-    data
+    image
   };
 }
 
@@ -59,10 +73,10 @@ const pretty = (pixel) => {
   return {
     x: pixel.x,
     y: pixel.y,
-    r: pixel.data.data[0],
-    g: pixel.data.data[1],
-    b: pixel.data.data[2],
-    a: pixel.data.data[3],
+    r: pixel.image.data[0],
+    g: pixel.image.data[1],
+    b: pixel.image.data[2],
+    a: pixel.image.data[3],
   };
 }
 
@@ -88,16 +102,17 @@ const setB = (pixel) => {
   ctx.strokeRect(_pallete.width, _canvas.height - _pallete.height, _pallete.width, _pallete.height);
 }
 
-const set9 = (change) => {
+const drawPallete = (change) => {
   const rows = 3;
   const columns = 3;
-  const border = _pallete.border * rows;
+  const { width, height } = getPalleteSize(_pallete, rows, columns);
 
-  const bottom = _canvas.height - _pallete.height - border;
+  const bottom = _canvas.height - height;
   const drawDebugBefore = drawDebug(rows, 0, columns, bottom, 'white');
   change.before.forEach(drawDebugBefore);
 
-  const drawDebugAfter = drawDebug(rows, _pallete.width + border + 2, columns, bottom, '');
+  const afterGap = 1;
+  const drawDebugAfter = drawDebug(rows, width + afterGap, columns, bottom, 'black');
   change.after.forEach(drawDebugAfter);
 }
 
@@ -110,28 +125,28 @@ const drawDebug = (rows, offsetX, columns, offsetY, color) => {
     const row = ~~(i / rows);
     const column = i % columns;
 
-    const cellWidth = (_pallete.width / rows);
+    const cellWidth = (_pallete.cellGap + _pallete.width / rows);
     const x = offsetX + border2x + cellWidth * column;
 
-    const cellHeight = (_pallete.height / columns);
+    const cellHeight = (_pallete.cellGap + _pallete.height / columns);
     const y = offsetY + border2x + cellHeight * row;
 
     // console.log({ i, row, column, x, y, cellWidth, cellHeight, }); 
     
     ctx.fillStyle = getRgbaCss(pixel);
-    // draw on half for 1 px borders
-    ctx.fillRect(x - _pallete.borderOffset, y - _pallete.borderOffset, width,height);
+    ctx.fillRect(x, y, width,height);
 
     ctx.lineWidth  = _pallete.border;
     ctx.strokeStyle = color
-    ctx.strokeRect(x,y, width, height);
+    // draw on half for 1 px borders
+    ctx.fillRect(x + _pallete.borderOffset, y + _pallete.borderOffset, width,height);
   }
 }
 
 
 const swapPixels = (a,b) => {
-  ctx.putImageData(b.data, a.x, a.y);
-  ctx.putImageData(a.data, b.x, b.y);
+  ctx.putImageData(b.image, a.x, a.y);
+  ctx.putImageData(a.image, b.x, b.y);
 }
 
 const getAB = (e) => {
@@ -191,7 +206,7 @@ const swapCrossCanvas = (e) => {
   }
 
   const change = swapCross(e);
-  set9(change);
+  drawPallete(change);
 }
 
 canvas.addEventListener("mousedown", toggleActive);
