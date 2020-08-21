@@ -1,6 +1,6 @@
 const $ = (selector) => document.querySelector(selector);
 
-const canvas = $('#main');
+const canvas = $('#canvas');
 const ctx = canvas.getContext('2d');
 
 let active = true;
@@ -211,6 +211,7 @@ const swapCrossCanvas = (e) => {
 
 canvas.addEventListener("mousedown", toggleActive);
 canvas.addEventListener("mousemove", swapCrossCanvas);
+canvas.addEventListener("touchmove", swapCrossCanvas);
 
 window.addEventListener('load', function() {
     console.log('loaded')
