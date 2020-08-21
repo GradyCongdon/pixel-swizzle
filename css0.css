@@ -1,0 +1,137 @@
+@font-face {
+  font-family: "Bigilla";
+  src: url("./Bigilla.otf");
+  /* https://www.behance.net/gallery/93242287/BIGILLA-FREE-DISPLAY-SERIF-TYPEFACE */
+}
+
+:root {
+  /* --fg: #c3b1b1; */
+  /* --bg: #ECF1FE; */
+  --fg: #e0c5c5;
+  --bg: #ffffff;
+  --main-v-pad: 1rem;
+  --main-h-pad: 2.5rem;
+  --cap-size: 5.5px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg);
+}
+
+canvas {
+  width: 550px;
+  height: 550px;
+}
+
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: var(--fg);
+  padding-top: 10px;
+}
+
+main {
+  border: 2px solid black;
+  border-color: var(--fg);
+  border-radius: 7%;
+  padding: var(--main-v-pad) var(--main-h-pad);
+  padding-top: 3.3rem;
+  border-bottom: none;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+h1 {
+  display: inline-block;
+  position: absolute;
+  top: -6.5%;
+  margin: 0;
+  font-family: "Bigilla";
+  font-size: 75px;
+  padding: 0 .25rem;
+  padding-right: 3px;
+  background-color: var(--bg);
+  z-index: 10; 
+}
+
+
+.capper-wrapper {
+  position: relative;
+}
+
+.capper {
+  position: absolute;
+  display: inline-block;
+  width: var(--cap-size);
+  height: var(--cap-size);
+  background-color: var(--fg);
+  border-radius: 100%;
+}
+
+.capper--left {
+  bottom: calc(-1 *var(--cap-size) / 2);
+  left: calc(-1 * var(--cap-size) / 2);
+  margin-left: 1px; /* dunno */
+}
+
+.capper--right {
+  bottom: calc(-1 *var(--cap-size) / 2);
+  right: calc(-1 * var(--cap-size) / 2);
+  margin-right: 1px; /* dunno */
+}
+
+.source {
+  display: none;
+}
+
+
+
+@media screen and (max-width: 375px) {
+  canvas {
+    width: 325px;
+    height: 325px;
+  }
+  h1 {
+    font-size: 45px;
+    top: -2.5%;
+  }
+  main {
+    padding: 2rem 1.5rem;
+    height: 82vh;
+  }
+  body {
+    justify-content: flex-start;
+    margin-top: 2.2rem;
+  }
+
+}
+
+@media screen and (max-width: 320px) {
+  canvas {
+    width: 300px;
+    height: 300px;
+  }
+  h1 {
+    font-size: 50px;
+    top: -3.5%;
+  }
+  main {
+    padding: 2rem 1.5rem;
+    height: 82vh;
+  }
+  body {
+    justify-content: flex-start;
+    margin-top: 2.2rem;
+    margin-left: 0;
+  }
+}

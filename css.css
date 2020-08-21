@@ -1,71 +1,70 @@
-@font-face {
-  font-family: "Bigilla";
-  src: url("./Bigilla.otf");
-  /* https://www.behance.net/gallery/93242287/BIGILLA-FREE-DISPLAY-SERIF-TYPEFACE */
-}
+@import './reset.css';
+@import './utils.css';
 
 :root {
   /* --fg: #c3b1b1; */
   /* --bg: #ECF1FE; */
   --fg: #e0c5c5;
+  --fg-alt: #cc9393;
   --bg: #ffffff;
+  --title-font-size: 3.3rem;
   --main-v-pad: 1rem;
-  --main-h-pad: 2.5rem;
+  --main-h-pad: 1.5rem;
   --cap-size: 5.5px;
 }
 
-* {
-  box-sizing: border-box;
-}
 
-html,
-body {
+html {
   width: 100%;
   height: 100%;
   background-color: var(--bg);
 }
 
-canvas {
-  width: 550px;
-  height: 550px;
-}
-
-
-body {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: var(--fg);
-  padding-top: 10px;
-}
 
 main {
-  border: 2px solid black;
-  border-color: var(--fg);
-  border-radius: 7%;
-  padding: var(--main-v-pad) var(--main-h-pad);
-  padding-top: 3.3rem;
-  border-bottom: none;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: .5rem;
+  padding-bottom: 1rem;
+  height: 100%;
 }
 
-h1 {
+
+.title {
   display: inline-block;
-  position: absolute;
-  top: -6.5%;
-  margin: 0;
   font-family: "Bigilla";
-  font-size: 75px;
+  font-size: var(--title-font-size);
   padding: 0 .25rem;
-  padding-right: 3px;
   background-color: var(--bg);
+  color: var(--fg-alt);
   z-index: 10; 
 }
 
+@media (min-width: 765px) {
+  :root {
+    --title-font-size: 4rem;
+  }
+}
 
-.capper-wrapper {
+
+.outline {
+  border: 2px solid black;
+  border-color: var(--fg);
+  border-radius: 18px;
+  padding: var(--main-v-pad) var(--main-h-pad);
+}
+
+.title + .outline {
+  margin-top: calc(-1 * var(--title-font-size) / 2);
+  padding-top: calc(var(--title-font-size) / 1.5);
+}
+
+.capped {
+  border-bottom: none;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
   position: relative;
 }
 
@@ -81,57 +80,41 @@ h1 {
 .capper--left {
   bottom: calc(-1 *var(--cap-size) / 2);
   left: calc(-1 * var(--cap-size) / 2);
-  margin-left: 1px; /* dunno */
 }
 
 .capper--right {
   bottom: calc(-1 *var(--cap-size) / 2);
   right: calc(-1 * var(--cap-size) / 2);
-  margin-right: 1px; /* dunno */
+}
+.capper--left-center {
+  margin-left: -1px;
+}
+.capper--right-center {
+  margin-right: -1px;
+}
+
+
+* {
+  user-select: none;
+  pointer-events: none;
+  touch-action: manipulation;
+}
+canvas {
+  width: 95%;
+  height: auto;
+  pointer-events: auto;
 }
 
 .source {
   display: none;
 }
 
-
-
-@media screen and (max-width: 375px) {
-  canvas {
-    width: 325px;
-    height: 325px;
-  }
-  h1 {
-    font-size: 45px;
-    top: -2.5%;
-  }
-  main {
-    padding: 2rem 1.5rem;
-    height: 82vh;
-  }
-  body {
-    justify-content: flex-start;
-    margin-top: 2.2rem;
-  }
-
+@font-face {
+  font-family: "Bigilla";
+  src: url("./Bigilla.otf");
+  /* https://www.behance.net/gallery/93242287/BIGILLA-FREE-DISPLAY-SERIF-TYPEFACE */
 }
 
-@media screen and (max-width: 320px) {
-  canvas {
-    width: 300px;
-    height: 300px;
-  }
-  h1 {
-    font-size: 50px;
-    top: -3.5%;
-  }
-  main {
-    padding: 2rem 1.5rem;
-    height: 82vh;
-  }
-  body {
-    justify-content: flex-start;
-    margin-top: 2.2rem;
-    margin-left: 0;
-  }
+.hide {
+  visibility: hidden;
 }

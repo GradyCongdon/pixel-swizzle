@@ -9,16 +9,21 @@
     <link rel="stylesheet" href="./css.css">
   </head>
 
-  <body>
-    <div class="capper-wrapper">
+  <body class="screen--full">
+    <img id="source" class="source" alt="lady with rose"  src="./intini.jpg"/>
       <main>
-        <h1>Pixel-Swizzle</h1>
-        <canvas id="canvas" width="550" height="550"></canvas>
-        <img id="source" class="source" alt="lady with rose"  src="./intini.jpg"/>
+        <h1 class="title">Pixel-Swizzle</h1>
+        <div class="csc h100 outline capped">
+          <canvas id="canvas" width="550" height="550"></canvas>
+          <div class="hide">
+            touch: <pre id="touches">0</pre>
+            mouse:<pre id="mouses">0</pre>
+            <pre id="debug">0</pre>
+          </div>
+          <div class="capper capper--left capper--left-center"></div>
+          <div class="capper capper--right capper--right-center"></div>
+        </div>
       </main>
-      <div class="capper capper--left"></div>
-      <div class="capper capper--right"></div>
-    </div>
     <script src="./js.js"></script>
   </body>
 </html>

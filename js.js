@@ -47,19 +47,35 @@ const run = () => {
   const data = ctx.getImageData(0,0, _canvas.width, _canvas.height);
 };
 
+const red = (pixel) => {
+  const { x, y, image} = pixel
+  image.data[0] = 255;
+  ctx.putImageData(image, x,y);
+}
+
+const getClientPosition = (event) => {
+  if (event.touches && event.touches[0]) {
+    return {
+      clientX: event.touches[0].clientX,
+      clientY: event.touches[0].clientY,
+    };
+  }
+  return {
+    clientX: event.clientX,
+    clientY: event.clientY
+  }
+};
+
 const getPostion = (canvas, event) => { 
   let rect = canvas.getBoundingClientRect(); 
-  let x = event.clientX - rect.left; 
-  let y = event.clientY - rect.top; 
+  const { clientX, clientY } = getClientPosition(event);
+  let x = clientX - rect.left; 
+  let y = clientY - rect.top; 
+  // console.log({ clientX, x, clientY, y });
   return {x,y};
 };
 
 const getCanvasPostion = getPostion.bind(null, canvas);
-
-const red = (imageData, x,y) => {
-  imageData.data[0] = 255;
-  ctx.putImageData(imageData,x,y);
-}
 
 const getPixel = (x,y) => {
   const image = ctx.getImageData(x,y,1,1);
@@ -187,6 +203,12 @@ const swapCross = (event) => {
 }
 
 
+let touchCount = 0;
+let mouseCount = 0;
+const $touches = $('#touches');
+const $mouses = $('#mouses');
+const $debug = $('#debug');
+
 const swapPixelsCanvas = (e) => {
   const { a, b } = getAB(e);
   swapPixels(a,b);
@@ -209,9 +231,30 @@ const swapCrossCanvas = (e) => {
   drawPallete(change);
 }
 
+const touchMove = (e) => {
+  $touches.innerText = touchCount++;
+  swizzle(e);
+}
+
+const mouseMove = (e) => {
+  $mouses.innerText = mouseCount++;
+  swizzle(e);
+}
+
+/*
+const swizzle = (e) => {
+  const {x, y} = getCanvasPostion(e);
+  const a = getPixel(x,y);
+  red(a);
+}
+*/
+
+const swizzle = swapCrossCanvas;
+
 canvas.addEventListener("mousedown", toggleActive);
-canvas.addEventListener("mousemove", swapCrossCanvas);
-canvas.addEventListener("touchmove", swapCrossCanvas);
+canvas.addEventListener("mousemove", mouseMove);
+
+canvas.addEventListener("touchmove", touchMove);
 
 window.addEventListener('load', function() {
     console.log('loaded')
